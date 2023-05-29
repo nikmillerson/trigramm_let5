@@ -19,7 +19,13 @@ std::vector<std::string> Read_from_file_to_vector(std::string filename){
     size_t size = bigtext.length();
 
     for (size_t i=0; i<size-2; i++){
-        trigramm_vector.push_back(bigtext.substr(i, 3));
+        std::string trigramochka = bigtext.substr(i, 3);
+        for (int j=0; j<3; j++){
+            if (trigramochka[j] == ' '){
+                trigramochka[j] = '_';
+            }
+        }
+        trigramm_vector.push_back(trigramochka);
     }
     return trigramm_vector;
 }
@@ -42,8 +48,8 @@ std::vector<std::pair<std::string, int>> Sort_trigrams(std::vector<std::string> 
 
 
 
-int main() {
-    auto pair_vector = Sort_trigrams(Read_from_file_to_vector("file.txt"));
+int main(int argc, char *argv[]) {
+    auto pair_vector = Sort_trigrams(Read_from_file_to_vector(argv[1]));
     if (pair_vector.size() < 10){
         for (int i=0; i < pair_vector.size(); i++){
             std::cout << (i+1) << ") " << pair_vector[i].first << std::endl;
